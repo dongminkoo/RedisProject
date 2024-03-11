@@ -6,7 +6,7 @@ import com.personal.redisProject.dto.UserDTO;
 @Mapper
 public interface UserProfileMapper {
 
-    public UserDTO getUserProfile(@Param("userId") String userId); // id 값으로 User 정보 가져오기
+    public UserDTO getUserProfile(@Param("id") String id); // id 값으로 User 정보 가져오기
     int insertUserProfile(@Param("id") String id, @Param("password") String password, @Param("name") String name, @Param("phone") String phone, @Param("address") String address); // User 정보 저장
     int updateUserProfile(@Param("id") String id, @Param("password") String password, @Param("name") String name, @Param("phone") String phone, @Param("address") String address); // User 정보 업데이트
     int deleteUserProfile(@Param("id") String id); //User 정보 삭제

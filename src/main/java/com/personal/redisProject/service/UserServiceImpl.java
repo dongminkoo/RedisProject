@@ -22,9 +22,10 @@ public class UserServiceImpl implements UserService{
         this.userProfileMapper = userProfileMapper;
     }
 
+    /* 회원가입 */
     @Override
-    public void register(UserDTO userProfile) { // 회원가입
-        boolean dupleIdResult = isDuplicatedId(userProfile.getUserID());
+    public void register(UserDTO userProfile) {
+        boolean dupleIdResult = isDuplicatedId(userProfile.getUserId());
         if(dupleIdResult){
             throw new DuplicateIdException("중복된 아이디 입니다.");
         }
@@ -38,13 +39,13 @@ public class UserServiceImpl implements UserService{
         }
     }
 
+    /* 로그인 */
     @Override
-    public UserDTO login(String id, String password) { // 로그인
+    public UserDTO login(String id, String password) {
         String cryptoPassword = encryptSHA256(password); // User가 입력한 password 를 암호화 해 찾기
         UserDTO memberInfo = userProfileMapper.findByIdAndPassword(id, cryptoPassword);
 
         return memberInfo;
-
     }
 
     @Override
@@ -52,11 +53,13 @@ public class UserServiceImpl implements UserService{
         return userProfileMapper.idCheck(id) == 1;
     }
 
+    /* User 정보 확인 */
     @Override
     public UserDTO getUserInfo(String userId) { // User 정보 확인
         return userProfileMapper.getUserProfile(userId);
     }
 
+    /* User 정보 업데이트 */
     @Override
     public void updatePassword(String id, String beforePassword, String afterPassword) { // pw 업데이트
         String cryptoPassword = encryptSHA256(beforePassword);
@@ -72,13 +75,14 @@ public class UserServiceImpl implements UserService{
         }
     }
 
+    /* User 정보 삭제 */
     @Override
     public void deleteId(String id, String password) { // 계정 삭제
         String cryptoPassword = encryptSHA256(password);
         UserDTO memberInfo = userProfileMapper.findByIdAndPassword(id, cryptoPassword);
 
         if(memberInfo != null){
-            userProfileMapper.deleteUserProfile(memberInfo.getUserID());
+            userProfileMapper.deleteUserProfile(memberInfo.getUserId());
         }else{
             log.error("deleteId Error :{}", memberInfo);
             throw new RuntimeException("계정 삭제에 실패하였습니다. 다시 시도해주세요." + memberInfo);
