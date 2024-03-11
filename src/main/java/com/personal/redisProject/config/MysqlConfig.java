@@ -10,7 +10,7 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import javax.sql.DataSource;
 
 @Configuration
-@MapperScan(basePackages="com.personal.redisProject.mapper")
+@MapperScan(basePackages="com.personal.redisProject")
 public class MysqlConfig {
     public SqlSessionFactory sqlSessionFactory(DataSource dataSource)throws Exception{
         final SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
