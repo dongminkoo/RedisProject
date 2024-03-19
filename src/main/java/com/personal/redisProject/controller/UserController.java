@@ -39,9 +39,10 @@ public class UserController {
     @PostMapping("login") // 로그인
     public HttpStatus login(@RequestBody UserLoginRequest userLoginRequest, HttpSession session){
         ResponseEntity<LoginResponse> responseEntity = null;
-        String id = userLoginRequest.getId();
+        String userId = userLoginRequest.getUserId();
         String password = userLoginRequest.getPassword();
-        UserDTO userInfo = userService.login(id, password);
+        UserDTO userInfo = userService.login(userId, password);
+        String id = userInfo.getId().toString();
 
         if(userInfo == null){
             return HttpStatus.NOT_FOUND; //회원정보가 없을 시 NOT_FOUND

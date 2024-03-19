@@ -3,6 +3,7 @@ package com.personal.redisProject.service;
 import com.personal.redisProject.dto.UserDTO;
 import com.personal.redisProject.exception.DuplicateIdException;
 import com.personal.redisProject.mapper.UserProfileMapper;
+import com.personal.redisProject.utils.SHA256Util;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,8 +43,8 @@ public class UserServiceImpl implements UserService{
     /* 로그인 */
     @Override
     public UserDTO login(String id, String password) {
-        String cryptoPassword = encryptSHA256(password); // User가 입력한 password 를 암호화 해 찾기
-        UserDTO memberInfo = userProfileMapper.findByIdAndPassword(id, cryptoPassword);
+        String cryptoPassword = SHA256Util.encryptSHA256(password); // User가 입력한 password 를 암호화 해 찾기
+        UserDTO memberInfo = userProfileMapper.findByUserIdAndPassword(id, cryptoPassword);
 
         return memberInfo;
     }
