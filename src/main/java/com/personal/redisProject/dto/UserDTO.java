@@ -10,21 +10,36 @@ import java.util.Date;
 @ToString
 public class UserDTO {
 
-    public static boolean hasNullDataBeforeSignUp(UserDTO userDTO) {
-        return userDTO.getUserID() == null || userDTO.getPassword() == null || userDTO.getNickName() == null;
-    }
-
     public enum Status{
         DEFAULT,ADMIN,DELETED
     }
 
-    private int id;
-    private String userID;
+    private Integer id;
+    private String userId;
     private String password;
     private String nickName;
     private boolean isAdmin;
-    private boolean iisWithDraw;
     private Date createTime;
-    private Date updateTme;
+    private boolean isWithDraw;
     private Status status;
+    private Date updateTime;
+
+    public UserDTO(){
+    }
+
+    public UserDTO(String id, String password, String name, String phone, String address, Status status, Date createTime, Date updateTime, boolean isAdmin) {
+        this.userId = id;
+        this.password = password;
+        this.nickName = name;
+        this.status = status;
+        this.createTime = createTime;
+        this.updateTime = updateTime;
+        this.isAdmin = isAdmin;
+    }
+
+    public static boolean hasNullDataBeforeSignUp(UserDTO userDTO) {
+        return userDTO.getUserId() == null || userDTO.getPassword() == null || userDTO.getNickName() == null;
+    }
+
 }
+

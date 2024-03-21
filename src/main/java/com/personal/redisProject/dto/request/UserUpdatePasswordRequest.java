@@ -6,9 +6,9 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class UserLoginRequest {
+public class UserUpdatePasswordRequest {
     @NonNull
-    private String userId;
+    private String beforePassword;
     @NonNull
-    private String password;
+    private String afterPassword;
 }
