@@ -63,15 +63,15 @@ public class UserServiceImpl implements UserService{
     /* User 정보 업데이트 */
     @Override
     public void updatePassword(String id, String beforePassword, String afterPassword) { // pw 업데이트
-        String cryptoPassword = encryptSHA256(beforePassword);
+        String cryptoPassword = SHA256Util.encryptSHA256(beforePassword);
         UserDTO memberInfo = userProfileMapper.findByIdAndPassword(id, cryptoPassword);
 
         if(memberInfo != null){
-            memberInfo.setPassword(encryptSHA256(afterPassword));
+            memberInfo.setPassword(SHA256Util.encryptSHA256(afterPassword));
             int updateCount = userProfileMapper.updatePassword(memberInfo);
         }else{
             log.error("updatePassword Error :{}", memberInfo);
-            throw new IllegalArgumentException("비밀번호 변경에 실패하였습니다. 다시 시도해주세요." + memberInfo);
+            throw new IllegalArgumentException("비밀번호 변경에 실패하였습니다. 다시 시도해주세요. " + memberInfo);
 
         }
     }

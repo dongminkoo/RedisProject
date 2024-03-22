@@ -62,6 +62,7 @@ public class UserController {
 
     @PatchMapping("password") // 비밀번호 변경
     public ResponseEntity<LoginResponse> updateUserPassword(@RequestBody UserUpdatePasswordRequest userUpdatePasswordRequest, HttpSession session){
+
         ResponseEntity<LoginResponse> responseEntity = null;
         String id = SessionUtil.getLoginMemberId(session);
         String beforePassword = userUpdatePasswordRequest.getBeforePassword();
