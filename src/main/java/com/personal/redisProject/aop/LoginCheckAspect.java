@@ -19,7 +19,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 @Log4j2
 @Component //Bean 등록
 public class LoginCheckAspect {
-    @Around("@annotaion(com.personal.redisProject.aop.LoginCheck) && @ annotation(loginCheck") // interface 에서 만든 LoginCheck 어노테이션을 사용하기 위해
+    @Around("@annotation(com.personal.redisProject.aop.LoginCheck) && @ annotation(loginCheck)") // interface 에서 만든 LoginCheck 어노테이션을 사용하기 위해
     public Object adminLoginCheck(ProceedingJoinPoint proceedingJoinPoint, LoginCheck loginCheck) throws Throwable{ //PointCut 지정된 시점의 내용들을 한번에 모아줘 Controller에 넘기기 전에 실행
         HttpSession session = (HttpSession) ((ServletRequestAttributes)(RequestContextHolder.currentRequestAttributes())).getRequest().getSession(); //ServletAttribute 에서 Type을 지정해야만 Session을 가져올 수 있음
         String id = null;
