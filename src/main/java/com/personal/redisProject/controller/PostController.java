@@ -49,15 +49,36 @@ public class PostController {
         return ResponseEntity.ok(commonResponse);
     }
 
-//    @PatchMapping("{postId}")
-//    @LoginCheck(type = LoginCheck.UserType.USER)
-//    public ResponseEntity<CommonResponse<PostResponse>> updatePosts(String accountId, @PathVariable(name = "postId") int postId, @RequestBody PostRequest postRequest){
-//        UserDTO memberInfo = userService.getUserInfo(accountId);
-//
-//
-//    }
+    @PatchMapping("{postId}")
+    @LoginCheck(type = LoginCheck.UserType.USER)
+    public ResponseEntity<CommonResponse<PostResponse>> updatePosts(String accountId, @PathVariable(name = "postId") int postId, @RequestBody PostRequest postRequest){
+        UserDTO memberInfo = userService.getUserInfo(accountId);
+        PostDTO postDTO = PostDTO.builder()
+                .id(postId)
+                .name(postRequest.getName())
+                .contents(postRequest.getContents())
+                .views(postRequest.getViews())
+                .categoryId(postRequest.getCategoryId())
+                .userId(memberInfo.getId())
+                .fileId(postRequest.getFileId())
+                .updateTime(new Date())
+                .build();
+        postService.updatePosts(postDTO);
+        CommonResponse commonResponse = new CommonResponse<>(HttpStatus.OK,"SUCCESS","updatePosts",postDTO);
+        return ResponseEntity.ok(commonResponse);
 
-    // -------------- response 객체 --------------
+    }
+
+    @DeleteMapping("{postId}")
+    @LoginCheck(type = LoginCheck.UserType.USER)
+    public ResponseEntity<CommonResponse<PostDeleteRequest>> deleteposts(String accountId, @PathVariable(name = "postId")int postId, @RequestBody PostDeleteRequest postDeleteRequest){
+        UserDTO memberInfo = userService.getUserInfo(accountId);
+        postService.deletePosts(memberInfo.getId(), postId);
+        CommonResponse commonResponse = new CommonResponse<>(HttpStatus.OK,"SUCCESS","deleteposts", postDeleteRequest);
+        return ResponseEntity.ok(commonResponse);
+    }
+
+    // -------------- response 객체 (Inner 클래스 캡슐화) --------------
     @Getter
     @AllArgsConstructor
     private static class PostResponse{
@@ -75,5 +96,12 @@ public class PostController {
         private int userId;
         private int fileId;
         private Date updateTime;
+    }
+
+    @Setter
+    @Getter
+    private static class PostDeleteRequest{
+        private int id;
+        private int accountId;
     }
 }

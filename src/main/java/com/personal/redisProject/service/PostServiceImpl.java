@@ -23,11 +23,11 @@ public class PostServiceImpl implements PostService{
 
     @Override
     public void register(String id, PostDTO postDTO) {
-        UserDTO memberinfo = userProfileMapper.getUserProfile(id);
-        postDTO.setUserId(memberinfo.getId());
+        UserDTO memberInfo = userProfileMapper.getUserProfile(id);
+        postDTO.setUserId(memberInfo.getId());
         postDTO.setCreateTime(new Date());
 
-        if(memberinfo != null){
+        if(memberInfo != null){
             postMapper.register(postDTO);
         }else{
             log.error("register Error: {}",postDTO);
