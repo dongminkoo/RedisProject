@@ -1,6 +1,8 @@
 package com.personal.redisProject.service;
 
 import com.personal.redisProject.dto.CategoryDTO;
+import com.personal.redisProject.dto.CommentDTO;
+import com.personal.redisProject.dto.TagDTO;
 
 public interface CategoryService {
 

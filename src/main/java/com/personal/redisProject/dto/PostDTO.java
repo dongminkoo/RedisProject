@@ -2,6 +2,7 @@ package com.personal.redisProject.dto;
 import lombok.*;
 
 import java.util.Date;
+import java.util.List;
 
 @Builder
 @Getter
@@ -21,4 +22,5 @@ public class PostDTO {
     private int userId; //게시글 userid 값
     private int fileId;
     private Date updateTime; //게시글 수정날짜
+    private List<TagDTO> tagDTOList; //태그 리스트
 }

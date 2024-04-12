@@ -2,7 +2,9 @@ package com.personal.redisProject.controller;
 
 import com.personal.redisProject.aop.LoginCheck;
 import com.personal.redisProject.dto.PostDTO;
+import com.personal.redisProject.dto.TagDTO;
 import com.personal.redisProject.dto.UserDTO;
+import com.personal.redisProject.dto.CommentDTO;
 import com.personal.redisProject.dto.response.CommonResponse;
 import com.personal.redisProject.service.PostServiceImpl;
 import com.personal.redisProject.service.UserServiceImpl;
@@ -77,6 +79,71 @@ public class PostController {
         CommonResponse commonResponse = new CommonResponse<>(HttpStatus.OK,"SUCCESS","deleteposts", postDeleteRequest);
         return ResponseEntity.ok(commonResponse);
     }
+
+    //-------------- comments 댓글 관련 -----------------------------
+    @PostMapping("comments")
+    @ResponseStatus(HttpStatus.CREATED)
+    @LoginCheck(type = LoginCheck.UserType.USER)
+    public ResponseEntity<CommonResponse<CommentDTO>> registerPostComment(String accountId, @RequestBody CommentDTO commentDTO){
+        postService.registerComment(commentDTO);
+        CommonResponse commonResponse = new CommonResponse<>(HttpStatus.OK, "Success", "registerPostComment", commentDTO);
+        return ResponseEntity.ok(commonResponse);
+    }
+
+    @PatchMapping("comments/{commentId}")
+    @LoginCheck(type = LoginCheck.UserType.USER)
+    public ResponseEntity<CommonResponse<CommentDTO>> updatePostComment(String accountId,@PathVariable(name="commentId") int commentId, @RequestBody CommentDTO commentDTO){
+        UserDTO memberInfo = userService.getUserInfo(accountId);
+        if(memberInfo != null){
+            postService.updateComment(commentDTO);
+        }
+        CommonResponse commonResponse = new CommonResponse<>(HttpStatus.OK, "Success", "updatePostComment", commentDTO);
+        return ResponseEntity.ok(commonResponse);
+    }
+
+    @DeleteMapping ("comments/{commentId}")
+    @LoginCheck(type = LoginCheck.UserType.USER)
+    public ResponseEntity<CommonResponse<CommentDTO>> deletePostComment(String accountId,@PathVariable(name="commentId") int commentId, @RequestBody CommentDTO commentDTO){
+        UserDTO memberInfo = userService.getUserInfo(accountId);
+        if(memberInfo != null){
+            postService.deleteComment(memberInfo.getId(),commentId);
+        }
+        CommonResponse commonResponse = new CommonResponse<>(HttpStatus.OK, "Success", "deletePostComment", commentDTO);
+        return ResponseEntity.ok(commonResponse);
+    }
+
+    //-------------- tag 관련 -----------------------------
+    @PostMapping("tags")
+    @ResponseStatus(HttpStatus.CREATED)
+    @LoginCheck(type = LoginCheck.UserType.USER)
+    public ResponseEntity<CommonResponse<TagDTO>> registerPostTag(String accountId, @RequestBody TagDTO tagDTO){
+        postService.registerTag(tagDTO);
+        CommonResponse commonResponse = new CommonResponse<>(HttpStatus.OK, "Success", "registerPostTag", tagDTO);
+        return ResponseEntity.ok(commonResponse);
+    }
+
+    @PatchMapping("tags/{tagId}")
+    @LoginCheck(type = LoginCheck.UserType.USER)
+    public ResponseEntity<CommonResponse<TagDTO>> updatePostTag(String accountId,@PathVariable(name="tagId") int tagId, @RequestBody TagDTO tagDTO){
+        UserDTO memberInfo = userService.getUserInfo(accountId);
+        if(memberInfo != null){
+            postService.updateTag(tagDTO);
+        }
+        CommonResponse commonResponse = new CommonResponse<>(HttpStatus.OK, "Success", "updatePostComment", tagDTO);
+        return ResponseEntity.ok(commonResponse);
+    }
+
+    @DeleteMapping ("tags/{tagId}")
+    @LoginCheck(type = LoginCheck.UserType.USER)
+    public ResponseEntity<CommonResponse<TagDTO>> deletePostTag(String accountId,@PathVariable(name="tagId") int tagId, @RequestBody TagDTO tagDTO){
+        UserDTO memberInfo = userService.getUserInfo(accountId);
+        if(memberInfo != null){
+            postService.deleteTag(memberInfo.getId(),tagId);
+        }
+        CommonResponse commonResponse = new CommonResponse<>(HttpStatus.OK, "Success", "deletePostComment", tagDTO);
+        return ResponseEntity.ok(commonResponse);
+    }
+
 
     // -------------- response 객체 (Inner 클래스 캡슐화) --------------
     @Getter
